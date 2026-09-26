@@ -1,0 +1,1261 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Happiest Birthday Wifeyy ❤️ — Starry Polaroid Love Album</title>
+    <meta
+      name="description"
+      content="A magical, interactive starry night & vintage Polaroid romantic birthday surprise website made specially for my Wifeyy."
+    />
+    <meta property="og:title" content="Happiest Birthday Wifeyy ❤️ — Starry Polaroid Love Album" />
+    <meta
+      property="og:description"
+      content="A magical, interactive starry night & vintage Polaroid romantic birthday surprise website made specially for my Wifeyy."
+    />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Dancing+Script:wght@500;600;700&family=Great+Vibes&family=Montserrat:wght@500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Poppins:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Main Stylesheet -->
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <!-- =====================================================================
+         GLOBAL BACKGROUND CANVASES & PARTICLE LAYERS
+         ===================================================================== -->
+    <!-- Starry Night Sky, Twinkling Stars, Galaxy Dust & Shooting Stars -->
+    <canvas id="starry-canvas" aria-hidden="true"></canvas>
+
+    <!-- Soft Ambient Moon & Nebula Glow -->
+    <div class="ambient-sky-decor" aria-hidden="true">
+      <div class="nebula-glow nebula-1"></div>
+      <div class="nebula-glow nebula-2"></div>
+      <div class="crescent-moon" title="Starry Night Moon">
+        <span class="moon-crater crater-1"></span>
+        <span class="moon-crater crater-2"></span>
+      </div>
+    </div>
+
+    <!-- Continuous Heart Rain & Soft Floating Light Particles (Active on Lock 1 & All Pages) -->
+    <div id="heart-rain-container" aria-hidden="true"></div>
+
+    <!-- 12 Floating Nicknames Layer (STRICTLY HIDDEN on First Lock Page; Starts ONLY after Age 19 is unlocked) -->
+    <div id="nicknames-container" class="hidden" aria-hidden="true"></div>
+
+    <!-- Celebration Confetti, Paper Pieces, Balloons & Petals Layer -->
+    <div id="celebration-layer" aria-hidden="true"></div>
+
+    <!-- Soft Screen Flash for Unlock Moments -->
+    <div id="screen-flash" class="screen-flash" aria-hidden="true"></div>
+
+    <!-- =====================================================================
+         AUDIO ELEMENTS (Background Song + Romantic Sound Effects)
+         Replace these files in assets/music/ and assets/sounds/
+         ===================================================================== -->
+    <audio id="bg-music" loop preload="auto">
+      <source src="assets/music/birthday-song.mp3" type="audio/mpeg" />
+      <source src="music/birthday-song.mp3" type="audio/mpeg" />
+    </audio>
+    <audio id="sound-correct-age" preload="auto">
+      <source src="assets/sounds/correct-age.mp3" type="audio/mpeg" />
+    </audio>
+    <audio id="sound-correct-date" preload="auto">
+      <source src="assets/sounds/correct-date.mp3" type="audio/mpeg" />
+    </audio>
+    <audio id="sound-click" preload="auto">
+      <source src="assets/sounds/click.mp3" type="audio/mpeg" />
+    </audio>
+
+    <!-- Floating Music Control Pill (Shown as soon as Age 19 is unlocked) -->
+    <button
+      id="floating-music-btn"
+      class="floating-music-btn hidden"
+      type="button"
+      aria-label="Toggle background birthday music"
+      title="Mute / Unmute Birthday Music"
+    >
+      <span class="music-icon" id="floating-music-icon">🎵</span>
+      <span class="music-label" id="floating-music-label">Music On</span>
+      <span class="music-bars" id="floating-music-bars" aria-hidden="true">
+        <span></span><span></span><span></span>
+      </span>
+    </button>
+
+    <!-- =====================================================================
+         STEP 1: FIRST PAGE — SECRET AGE LOCK
+         IMPORTANT: Nicknames DO NOT appear on this screen.
+         Correct Answer: 19
+         ===================================================================== -->
+    <main id="stage-age-lock" class="stage-screen active-stage">
+      <div class="lock-card glass-panel" id="age-lock-card">
+        <!-- Decorative Corner Stars -->
+        <span class="corner-sparkle cs-tl" aria-hidden="true">✦</span>
+        <span class="corner-sparkle cs-tr" aria-hidden="true">✦</span>
+        <span class="corner-sparkle cs-bl" aria-hidden="true">✦</span>
+        <span class="corner-sparkle cs-br" aria-hidden="true">✦</span>
+
+        <!-- Glowing Heart-Shaped Lock with Animated Shackle -->
+        <div class="heart-lock-wrapper" id="heart-lock-visual" aria-hidden="true">
+          <div class="lock-sparkles">
+            <span class="sp-dot s1">✦</span>
+            <span class="sp-dot s2">✨</span>
+            <span class="sp-dot s3">💗</span>
+            <span class="sp-dot s4">✦</span>
+          </div>
+          <svg
+            class="heart-lock-svg"
+            viewBox="0 0 140 160"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <defs>
+              <linearGradient id="shackleGrad" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#FFE9A6" />
+                <stop offset="50%" stop-color="#FFD76A" />
+                <stop offset="100%" stop-color="#E09F3E" />
+              </linearGradient>
+              <linearGradient id="heartBodyGrad" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#FF8FB1" />
+                <stop offset="50%" stop-color="#FF4F87" />
+                <stop offset="100%" stop-color="#A82454" />
+              </linearGradient>
+              <filter id="heartGlow" x="-25%" y="-25%" width="150%" height="150%">
+                <feGaussianBlur stdDeviation="6" result="blur" />
+                <feComposite in="SourceGraphic" in2="blur" operator="over" />
+              </filter>
+            </defs>
+            <!-- Lock Shackle (Swings open when 19 is entered) -->
+            <g class="lock-shackle" id="lock-shackle-group">
+              <path
+                d="M44 65 V38 C44 21 55 11 70 11 C85 11 96 21 96 38 V65"
+                stroke="url(#shackleGrad)"
+                stroke-width="10"
+                stroke-linecap="round"
+              />
+            </g>
+            <!-- Heart Body -->
+            <path
+              filter="url(#heartGlow)"
+              d="M70 144 C70 144 18 110 18 69 C18 49 34 36 51 36 C61 36 67 42 70 48 C73 42 79 36 89 36 C106 36 122 49 122 69 C122 110 70 144 70 144 Z"
+              fill="url(#heartBodyGrad)"
+              stroke="#FFD6E7"
+              stroke-width="2.5"
+            />
+            <!-- Keyhole -->
+            <circle cx="70" cy="82" r="7" fill="#FFF9F5" />
+            <path d="M67 86 L65 104 H75 L73 86 Z" fill="#FFF9F5" />
+          </svg>
+        </div>
+
+        <p class="secret-kicker">💌 A Little Secret For My Wifeyy 💌</p>
+        <h1 class="lock-title">How old is my Wifeyy today?</h1>
+        <p class="lock-subtitle">Only she can unlock this...</p>
+
+        <form id="age-lock-form" class="lock-form" novalidate>
+          <label for="age-input" class="lock-question">
+            Enter your present age 💗
+          </label>
+          <div class="input-glow-wrap" id="age-input-wrap">
+            <input
+              type="text"
+              id="age-input"
+              class="secret-input"
+              placeholder="Enter your age"
+              inputmode="numeric"
+              maxlength="3"
+              autocomplete="off"
+              required
+            />
+          </div>
+
+          <button type="submit" id="age-unlock-btn" class="romantic-btn primary-unlock-btn">
+            <span>Unlock My Heart ❤️</span>
+          </button>
+
+          <p id="age-error-msg" class="lock-error-msg" role="alert" aria-live="polite">
+            <span class="error-icon" aria-hidden="true">💕</span>
+            <span id="age-error-text">Oops wifeyy... that's not the secret number 💕</span>
+          </p>
+        </form>
+      </div>
+    </main>
+
+    <!-- =====================================================================
+         STEP 2: BIRTHDAY REVEAL + SECOND LOCK (RELATIONSHIP DATE LOCK)
+         Revealed after Age 19 is entered.
+         12 Floating Nicknames begin here!
+         Correct Date Answer: 10/10/21 (Exact format DD/MM/YY)
+         ===================================================================== -->
+    <section id="stage-date-lock" class="stage-screen hidden" aria-label="Birthday Reveal and Relationship Date Lock">
+      <div class="stage-two-scroll-container">
+        <!-- PART A: Huge Animated Birthday Reveal Hero -->
+        <div class="birthday-reveal-hero">
+          <div class="sparkle-halo" aria-hidden="true">
+            <span>✦</span><span>✨</span><span>💗</span><span>🌟</span><span>✦</span>
+          </div>
+
+          <!-- Playfair Display 700 Heading as requested -->
+          <h1 class="main-birthday-heading" id="reveal-bday-heading">
+            HAPPIEST BIRTHDAY WIFEYY ❤️
+          </h1>
+
+          <p class="romantic-subtitle">
+            Today isn't just your birthday...<br />
+            it's the day my favorite person came into this world.
+          </p>
+
+          <a href="#second-lock-anchor" class="scroll-down-indicator" id="scroll-to-date-btn">
+            <span class="scroll-text">↓ Scroll down for one more little secret ↓</span>
+            <span class="scroll-chevrons" aria-hidden="true">⌄</span>
+          </a>
+        </div>
+
+        <!-- Romantic Divider with Floating Petals -->
+        <div class="starry-divider" aria-hidden="true">
+          <span class="divider-line"></span>
+          <span class="divider-icon">🌙 ✦ 💕 ✦ 🌙</span>
+          <span class="divider-line"></span>
+        </div>
+
+        <!-- PART B: Second Secret Lock — Vintage Love Letter Relationship Date -->
+        <div id="second-lock-anchor" class="second-lock-section">
+          <div class="vintage-envelope-wrapper" id="date-envelope-wrapper">
+            <!-- Interactive Vintage Envelope Illustration -->
+            <div class="envelope-visual" id="envelope-visual" aria-hidden="true">
+              <div class="envelope-flap" id="envelope-flap"></div>
+              <div class="envelope-letter-preview" id="envelope-letter-preview">
+                <span class="letter-script-line">Our Story Begins Here ❤️</span>
+              </div>
+              <div class="envelope-Pocket"></div>
+              <div class="wax-seal" id="envelope-wax-seal">❤️</div>
+            </div>
+
+            <!-- Vintage Love Letter Lock Card -->
+            <div class="vintage-letter-lock-card" id="date-lock-card">
+              <p class="vintage-stamp">POSTMARKED IN THE STARS · SECRET CHAPTER II</p>
+              <h2 class="letter-lock-heading">Before you see everything...</h2>
+              <p class="letter-lock-subtext">
+                I want you to remember one very special date.
+              </p>
+
+              <form id="date-lock-form" class="lock-form" novalidate>
+                <label for="dateInput" class="lock-question vintage-question">
+                  When did our story begin? ❤️
+                </label>
+                <span class="format-hint">Format: DD/MM/YYYY</span>
+
+                <div class="input-glow-wrap vintage-input-wrap" id="date-input-wrap">
+                  <input
+                    type="text"
+                    id="dateInput"
+                    class="secret-input vintage-date-input"
+                    placeholder="DD/MM/YYYY"
+                    maxlength="10"
+                    inputmode="numeric"
+                    autocomplete="off"
+                    required
+                  />
+                </div>
+
+                <button type="submit" id="date-unlock-btn" class="romantic-btn vintage-unlock-btn">
+                  <span>Open Our Love Story 💌</span>
+                </button>
+
+                <p id="date-error-msg" class="lock-error-msg vintage-error" role="alert" aria-live="polite">
+                  <span class="error-icon" aria-hidden="true">💌</span>
+                  <span id="date-error-text">
+                    Hmm wifeyy... that's not our special date 💕
+                  </span>
+                </p>
+              </form>
+            </div>
+          </div>
+
+          <!-- Cinematic Transition Overlay Message shown when 10/10/2021 is unlocked -->
+          <div id="story-begins-banner" class="story-begins-banner hidden" aria-live="polite">
+            <p class="story-timeline-pill">10 / 10 / 2021 — FOREVER &amp; ALWAYS</p>
+            <h2 class="story-begins-title">Our Story Begins Here ❤️</h2>
+            <p class="story-begins-sub">Opening your private birthday love album...</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         STEP 3: MAIN WEBSITE (SPA MODE — ONLY ONE SECTION VISIBLE AT A TIME)
+         Sections: HOME | ALBUM | POEM | ABOUT HER | FINAL SURPRISE
+         ===================================================================== -->
+    <div id="main-website" class="main-website hidden">
+      <!-- Top Navigation Bar (Strict 3-Zone Contract + Mobile Hamburger) -->
+      <header class="top-navbar" id="main-navbar">
+        <div class="navbar-inner">
+          <!-- Zone 1: Brand Wordmark -->
+          <a
+            href="#home"
+            class="nav-brand"
+            onclick="event.preventDefault(); showSection('home');"
+          >
+            My Wifeyy ❤️
+          </a>
+
+          <!-- Zone 2: 5 Clickable Navigation Items -->
+          <nav class="nav-links" id="desktop-nav" aria-label="Main Album Navigation">
+            <button
+              type="button"
+              class="nav-item active"
+              data-target="home"
+              onclick="showSection('home')"
+            >
+              HOME
+            </button>
+            <button
+              type="button"
+              class="nav-item"
+              data-target="album"
+              onclick="showSection('album')"
+            >
+              ALBUM
+            </button>
+            <button
+              type="button"
+              class="nav-item"
+              data-target="poem"
+              onclick="showSection('poem')"
+            >
+              POEM
+            </button>
+            <button
+              type="button"
+              class="nav-item"
+              data-target="about"
+              onclick="showSection('about')"
+            >
+              ABOUT HER
+            </button>
+            <button
+              type="button"
+              class="nav-item"
+              data-target="surprise"
+              onclick="showSection('surprise')"
+            >
+              FINAL SURPRISE
+            </button>
+          </nav>
+
+          <!-- Zone 3: Music Indicator & Mobile Menu Toggle -->
+          <div class="nav-actions">
+            <button
+              type="button"
+              id="nav-music-btn"
+              class="nav-music-toggle"
+              aria-label="Mute or unmute background song"
+            >
+              <span id="nav-music-icon">🎵</span>
+              <span id="nav-music-text">Music</span>
+            </button>
+
+            <button
+              type="button"
+              id="hamburger-btn"
+              class="hamburger-btn"
+              aria-label="Open navigation menu"
+              aria-expanded="false"
+            >
+              <span class="ham-line"></span>
+              <span class="ham-line"></span>
+              <span class="ham-line"></span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Mobile Dropdown Navigation Menu -->
+        <div id="mobile-nav-drawer" class="mobile-nav-drawer hidden">
+          <button
+            type="button"
+            class="mobile-nav-item active"
+            data-target="home"
+            onclick="showSection('home')"
+          >
+            💗 HOME
+          </button>
+          <button
+            type="button"
+            class="mobile-nav-item"
+            data-target="album"
+            onclick="showSection('album')"
+          >
+            📸 ALBUM
+          </button>
+          <button
+            type="button"
+            class="mobile-nav-item"
+            data-target="poem"
+            onclick="showSection('poem')"
+          >
+            🌸 POEM
+          </button>
+          <button
+            type="button"
+            class="mobile-nav-item"
+            data-target="about"
+            onclick="showSection('about')"
+          >
+            🌷 ABOUT HER
+          </button>
+          <button
+            type="button"
+            class="mobile-nav-item"
+            data-target="surprise"
+            onclick="showSection('surprise')"
+          >
+            🎁 FINAL SURPRISE
+          </button>
+        </div>
+      </header>
+
+      <!-- Transition Sparkle Overlay when Switching Pages -->
+      <div id="section-transition-sparkles" class="section-transition-sparkles" aria-hidden="true"></div>
+
+      <!-- ===================================================================
+           SPA VIEW CONTAINER — ONLY ONE SECTION VISIBLE AT ANY TIME
+           =================================================================== -->
+      <div class="spa-views-wrapper">
+        <!-- -----------------------------------------------------------------
+             SECTION 1: HOME PAGE (#section-home)
+             Displays ONLY the Home/Birthday view + Clickable Chapter Cards
+             ----------------------------------------------------------------- -->
+        <section id="section-home" class="spa-section active-section" aria-label="Home Birthday Page">
+          <!-- Subtle Decorative Floating Background Polaroids on Home -->
+          <div class="home-bg-polaroids" aria-hidden="true">
+            <div class="bg-mini-polaroid bp-left">
+              <div class="bp-photo bp-gradient-1"><span>10/10/21 ❤️</span></div>
+              <p>Our Forever</p>
+            </div>
+            <div class="bg-mini-polaroid bp-right">
+              <div class="bp-photo bp-gradient-2"><span>19th Birthday ✨</span></div>
+              <p>My Wifeyy</p>
+            </div>
+          </div>
+
+          <div class="home-hero-container">
+            <p class="home-date-kicker">OUR STORY BEGAN 10/10/21 · CELEBRATING YOUR 19TH BIRTHDAY</p>
+
+            <!-- Playfair Display 700 Main Birthday Heading -->
+            <h1 class="main-birthday-heading home-bday-title">
+              HAPPIEST BIRTHDAY WIFEYY ❤️
+            </h1>
+
+            <p class="romantic-subtitle home-bday-subtitle">
+              Today isn't just your birthday...<br />
+              it's the day my favorite person came into this world.
+            </p>
+
+            <!-- EDITABLE TEXT: Home Welcome Love Note -->
+            <div class="home-love-note glass-panel">
+              <p class="home-note-body">
+                Every star in this sky holds a wish I made for you, and every Polaroid in this little digital world holds a piece of my heart. Take your time exploring each chapter I made just for you today, my love.
+              </p>
+              <p class="home-note-sign">— Forever Yours 💗</p>
+            </div>
+
+            <!-- CLICKABLE CHAPTER HEADINGS / CARDS (Opens each dedicated section) -->
+            <div class="home-chapters-header">
+              <h2 class="chapters-prompt-title">Choose a Chapter to Open ✨</h2>
+              <p class="chapters-prompt-sub">
+                Click any card below or use the top menu to explore your birthday surprise
+              </p>
+            </div>
+
+            <div class="home-chapter-grid">
+              <!-- Card 1: Opens ALBUM -->
+              <article
+                class="chapter-portal-card"
+                role="button"
+                tabindex="0"
+                onclick="showSection('album')"
+                onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showSection('album');}"
+              >
+                <span class="portal-sparkle" aria-hidden="true">✦</span>
+                <div class="portal-icon-wrap">📸</div>
+                <h3 class="portal-card-title">Our Memories 📸</h3>
+                <p class="portal-card-desc">
+                  12 Polaroid snapshots of our sweetest moments, smiles, and little adventures together.
+                </p>
+                <span class="portal-cta-link">Open Our Album →</span>
+              </article>
+
+              <!-- Card 2: Opens POEM -->
+              <article
+                class="chapter-portal-card"
+                role="button"
+                tabindex="0"
+                onclick="showSection('poem')"
+                onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showSection('poem');}"
+              >
+                <span class="portal-sparkle" aria-hidden="true">✦</span>
+                <div class="portal-icon-wrap">🌸</div>
+                <h3 class="portal-card-title">A Poem For You 🌸</h3>
+                <p class="portal-card-desc">
+                  A vintage love letter written under the moonlight, unfolding verse by verse just for you.
+                </p>
+                <span class="portal-cta-link">Read Your Poem →</span>
+              </article>
+
+              <!-- Card 3: Opens ABOUT HER -->
+              <article
+                class="chapter-portal-card"
+                role="button"
+                tabindex="0"
+                onclick="showSection('about')"
+                onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showSection('about');}"
+              >
+                <span class="portal-sparkle" aria-hidden="true">✦</span>
+                <div class="portal-icon-wrap">💗</div>
+                <h3 class="portal-card-title">About My Wifeyy 💗</h3>
+                <p class="portal-card-desc">
+                  All the little things I adore about your soul, your laugh, and what you mean to my world.
+                </p>
+                <span class="portal-cta-link">Read About Her →</span>
+              </article>
+
+              <!-- Card 4: Opens FINAL SURPRISE -->
+              <article
+                class="chapter-portal-card portal-card-featured"
+                role="button"
+                tabindex="0"
+                onclick="showSection('surprise')"
+                onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showSection('surprise');}"
+              >
+                <span class="portal-sparkle" aria-hidden="true">🌟</span>
+                <div class="portal-icon-wrap">🌙</div>
+                <h3 class="portal-card-title">One Last Surprise 🌙</h3>
+                <p class="portal-card-desc">
+                  Unwrap your glowing birthday gift box and watch our private cinema movie together.
+                </p>
+                <span class="portal-cta-link">Open Final Surprise →</span>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <!-- -----------------------------------------------------------------
+             SECTION 2: OUR ALBUM (#section-album)
+             Contains EXACTLY 12 Polaroid Photo Cards + Lightbox Viewer
+             ----------------------------------------------------------------- -->
+        <section id="section-album" class="spa-section hidden-section" aria-label="Our Polaroid Album">
+          <div class="section-container">
+            <div class="section-header">
+              <p class="section-eyebrow">CHAPTER I · 12 POLAROID MEMORIES</p>
+              <h2 class="section-main-title">Our Little World 💗</h2>
+              <p class="section-sub-desc">
+                Click any Polaroid to open it in fullscreen view and flip through all 12 memories.
+              </p>
+            </div>
+
+            <!-- 12 Polaroid Scrapbook Grid (Replace assets/photos/photo1.jpg ... photo12.jpg) -->
+            <div class="polaroid-scrapbook-grid" id="album-grid">
+              <!-- Photo 1 (Slight Left Rotation) -->
+              <figure
+                class="polaroid-card"
+                style="--rot: -2.8deg"
+                data-index="0"
+                tabindex="0"
+                role="button"
+                aria-label="View Photo 1 of 12: Our Beginning"
+              >
+                <div class="polaroid-tape" aria-hidden="true"></div>
+                <span class="polaroid-deco-star" aria-hidden="true">✦</span>
+                <span class="polaroid-deco-heart" aria-hidden="true">💗</span>
+                <div class="polaroid-img-box">
+                  <img
+                    src="assets/photos/photo1.jpg"
+                    data-fallback="images/photo1.jpg"
+                    alt="Memory 1 — Our Beginning"
+                    referrerpolicy="no-referrer"
+                    loading="lazy"
+                  />
+                </div>
+                <!-- EDITABLE CAPTION 1 -->
+                <figcaption class="polaroid-caption">Our Beginning 💕</figcaption>
+              </figure>
+
+              <!-- Photo 2 (Slight Right Rotation) -->
+              <figure
+                class="polaroid-card"
+                style="--rot: 2.4deg"
+                data-index="1"
+                tabindex="0"
+                role="button"
+                aria-label="View Photo 2 of 12: My Favorite Smile"
+              >
+                <div class="polaroid-tape" aria-hidden="true"></div>
+                <span class="polaroid-deco-star" aria-hidden="true">✨</span>
+                <span class="polaroid-deco-heart" aria-hidden="true">💖</span>
+                <div class="polaroid-img-box">
+                  <img
+                    src="assets/photos/photo2.jpg"
+                    data-fallback="images/photo2.jpg"
+                    alt="Memory 2 — My Favorite Smile"
+                    referrerpolicy="no-referrer"
+                    loading="lazy"
+                  />
+                </div>
+                <!-- EDITABLE CAPTION 2 -->
+                <figcaption class="polaroid-caption">My Favorite Smile ✨</figcaption>
+              </figure>
+
+              <!-- Photo 3 (Slight Left Rotation) -->
+              <figure
+                class="polaroid-card"
+                style="--rot: -1.9deg"
+                data-index="2"
+                tabindex="0"
+                role="button"
+                aria-label="View Photo 3 of 12: Little Moments"
+              >
+                <div class="polaroid-tape" aria-hidden="true"></div>
+                <span class="polaroid-deco-star" aria-hidden="true">✦</span>
+                <span class="polaroid-deco-heart" aria-hidden="true">💕</span>
+                <div class="polaroid-img-box">
+                  <img
+                    src="assets/photos/photo3.jpg"
+                    data-fallback="images/photo3.jpg"
+                    alt="Memory 3 — Little Moments"
+                    referrerpolicy="no-referrer"
+                    loading="lazy"
+                  />
+                </div>
+                <!-- EDITABLE CAPTION 3 -->
+                <figcaption class="polaroid-caption">Little Moments 🌸</figcaption>
+              </figure>
+
+              <!-- Photo 4 (Slight Right Rotation) -->
+              <figure
+                class="polaroid-card"
+                style="--rot: 3.1deg"
+                data-index="3"
+                tabindex="0"
+                role="button"
+                aria-label="View Photo 4 of 12: Just Us"
+              >
+                <div class="polaroid-tape" aria-hidden="true"></div>
+                <span class="polaroid-deco-star" aria-hidden="true">🌟</span>
+                <span class="polaroid-deco-heart" aria-hidden="true">💗</span>
+                <div class="polaroid-img-box">
+                  <img
+                    src="assets/photos/photo4.jpg"
+                    data-fallback="images/photo4.jpg"
+                    alt="Memory 4 — Just Us"
+                    referrerpolicy="no-referrer"
+                    loading="lazy"
+                  />
+                </div>
+                <!-- EDITABLE CAPTION 4 -->
+                <figcaption class="polaroid-caption">Just Us 💗</figcaption>
+              </figure>
+
+              <!-- Photo 5 (Slight Left Rotation) -->
+              <figure
+                class="polaroid-card"
+                style="--rot: -2.5deg"
+                data-index="4"
+                tabindex="0"
+                role="button"
+                aria-label="View Photo 5 of 12: My Cutiee"
+              >
+                <div class="polaroid-tape" aria-hidden="true"></div>
+                <span class="polaroid-deco-star" aria-hidden="true">✦</span>
+                <span class="polaroid-deco-heart" aria-hidden="true">💖</span>
+                <div class="polaroid-img-box">
+                  <img
+                    src="assets/photos/photo5.jpg"
+                    data-fallback="images/photo5.jpg"
+                    alt="Memory 5 — My Cutiee"
+                    referrerpolicy="no-referrer"
+                    loading="lazy"
+                  />
+                </div>
+                <!-- EDITABLE CAPTION 5 -->
+                <figcaption class="polaroid-caption">My Cutiee 🦋</figcaption>
+              </figure>
+
+              <!-- Photo 6 (Slight Right Rotation) -->
+              <figure
+                class="polaroid-card"
+                style="--rot: 2.1deg"
+                data-index="5"
+                tabindex="0"
+                role="button"
+                aria-label="View Photo 6 of 12: That Special Day"
+              >
+                <div class="polaroid-tape" aria-hidden="true"></div>
+                <span class="polaroid-deco-star" aria-hidden="true">✨</span>
+                <span class="polaroid-deco-heart" aria-hidden="true">💕</span>
+                <div class="polaroid-img-box">
+                  <img
+                    src="assets/photos/photo6.jpg"
+                    data-fallback="images/photo6.jpg"
+                    alt="Memory 6 — That Special Day"
+                    referrerpolicy="no-referrer"
+                    loading="lazy"
+                  />
+                </div>
+                <!-- EDITABLE CAPTION 6 -->
+                <figcaption class="polaroid-caption">That Special Day 🌙</figcaption>
+              </figure>
+
+              <!-- Photo 7 (Slight Left Rotation) -->
+              <figure
+                class="polaroid-card"
+                style="--rot: -3.2deg"
+                data-index="6"
+                tabindex="0"
+                role="button"
+                aria-label="View Photo 7 of 12: Our Crazy Side"
+              >
+                <div class="polaroid-tape" aria-hidden="true"></div>
+                <span class="polaroid-deco-star" aria-hidden="true">✦</span>
+                <span class="polaroid-deco-heart" aria-hidden="true">💗</span>
+                <div class="polaroid-img-box">
+                  <img
+                    src="assets/photos/photo7.jpg"
+                    data-fallback="images/photo7.jpg"
+                    alt="Memory 7 — Our Crazy Side"
+                    referrerpolicy="no-referrer"
+                    loading="lazy"
+                  />
+                </div>
+                <!-- EDITABLE CAPTION 7 -->
+                <figcaption class="polaroid-caption">Our Crazy Side 💕</figcaption>
+              </figure>
+
+              <!-- Photo 8 (Slight Right Rotation) -->
+              <figure
+                class="polaroid-card"
+                style="--rot: 2.7deg"
+                data-index="7"
+                tabindex="0"
+                role="button"
+                aria-label="View Photo 8 of 12: My Wifeyy"
+              >
+                <div class="polaroid-tape" aria-hidden="true"></div>
+                <span class="polaroid-deco-star" aria-hidden="true">🌟</span>
+                <span class="polaroid-deco-heart" aria-hidden="true">💖</span>
+                <div class="polaroid-img-box">
+                  <img
+                    src="assets/photos/photo8.jpg"
+                    data-fallback="images/photo8.jpg"
+                    alt="Memory 8 — My Wifeyy"
+                    referrerpolicy="no-referrer"
+                    loading="lazy"
+                  />
+                </div>
+                <!-- EDITABLE CAPTION 8 -->
+                <figcaption class="polaroid-caption">My Wifeyy 👑</figcaption>
+              </figure>
+
+              <!-- Photo 9 (Slight Left Rotation) -->
+              <figure
+                class="polaroid-card"
+                style="--rot: -2.2deg"
+                data-index="8"
+                tabindex="0"
+                role="button"
+                aria-label="View Photo 9 of 12: Forever Us"
+              >
+                <div class="polaroid-tape" aria-hidden="true"></div>
+                <span class="polaroid-deco-star" aria-hidden="true">✦</span>
+                <span class="polaroid-deco-heart" aria-hidden="true">💕</span>
+                <div class="polaroid-img-box">
+                  <img
+                    src="assets/photos/photo9.jpg"
+                    data-fallback="images/photo9.jpg"
+                    alt="Memory 9 — Forever Us"
+                    referrerpolicy="no-referrer"
+                    loading="lazy"
+                  />
+                </div>
+                <!-- EDITABLE CAPTION 9 -->
+                <figcaption class="polaroid-caption">Forever Us ♾️</figcaption>
+              </figure>
+
+              <!-- Photo 10 (Slight Right Rotation) -->
+              <figure
+                class="polaroid-card"
+                style="--rot: 1.8deg"
+                data-index="9"
+                tabindex="0"
+                role="button"
+                aria-label="View Photo 10 of 12: One More Memory"
+              >
+                <div class="polaroid-tape" aria-hidden="true"></div>
+                <span class="polaroid-deco-star" aria-hidden="true">✨</span>
+                <span class="polaroid-deco-heart" aria-hidden="true">💗</span>
+                <div class="polaroid-img-box">
+                  <img
+                    src="assets/photos/photo10.jpg"
+                    data-fallback="images/photo10.jpg"
+                    alt="Memory 10 — One More Memory"
+                    referrerpolicy="no-referrer"
+                    loading="lazy"
+                  />
+                </div>
+                <!-- EDITABLE CAPTION 10 -->
+                <figcaption class="polaroid-caption">One More Memory 📸</figcaption>
+              </figure>
+
+              <!-- Photo 11 (Slight Left Rotation) -->
+              <figure
+                class="polaroid-card"
+                style="--rot: -2.6deg"
+                data-index="10"
+                tabindex="0"
+                role="button"
+                aria-label="View Photo 11 of 12: Under The Stars"
+              >
+                <div class="polaroid-tape" aria-hidden="true"></div>
+                <span class="polaroid-deco-star" aria-hidden="true">✦</span>
+                <span class="polaroid-deco-heart" aria-hidden="true">💖</span>
+                <div class="polaroid-img-box">
+                  <img
+                    src="assets/photos/photo11.jpg"
+                    data-fallback="images/photo11.jpg"
+                    alt="Memory 11 — Under The Stars"
+                    referrerpolicy="no-referrer"
+                    loading="lazy"
+                  />
+                </div>
+                <!-- EDITABLE CAPTION 11 -->
+                <figcaption class="polaroid-caption">Under The Stars 🌟</figcaption>
+              </figure>
+
+              <!-- Photo 12 (Slight Right Rotation) -->
+              <figure
+                class="polaroid-card"
+                style="--rot: 2.3deg"
+                data-index="11"
+                tabindex="0"
+                role="button"
+                aria-label="View Photo 12 of 12: My Whole World"
+              >
+                <div class="polaroid-tape" aria-hidden="true"></div>
+                <span class="polaroid-deco-star" aria-hidden="true">🌟</span>
+                <span class="polaroid-deco-heart" aria-hidden="true">❤️</span>
+                <div class="polaroid-img-box">
+                  <img
+                    src="assets/photos/photo12.jpg"
+                    data-fallback="images/photo12.jpg"
+                    alt="Memory 12 — My Whole World"
+                    referrerpolicy="no-referrer"
+                    loading="lazy"
+                  />
+                </div>
+                <!-- EDITABLE CAPTION 12 -->
+                <figcaption class="polaroid-caption">My Whole World ❤️</figcaption>
+              </figure>
+            </div>
+
+            <div class="section-bottom-nav">
+              <button type="button" class="romantic-btn ghost-nav-btn" onclick="showSection('home')">
+                ← Back to Home
+              </button>
+              <button type="button" class="romantic-btn" onclick="showSection('poem')">
+                Next Chapter: Poem For My Wifeyy 🌸 →
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <!-- -----------------------------------------------------------------
+             SECTION 3: POEM FOR MY WIFEYY (#section-poem)
+             Vintage parchment love letter with Cormorant Garamond & Dancing Script
+             ----------------------------------------------------------------- -->
+        <section id="section-poem" class="spa-section hidden-section" aria-label="Poem For My Wifeyy">
+          <div class="section-container poem-section-container">
+            <div class="section-header">
+              <p class="section-eyebrow">CHAPTER II · WRITTEN IN THE STARS</p>
+              <h2 class="section-main-title">Poem For My Wifeyy 🌸</h2>
+              <p class="section-sub-desc">A Poem For My Wifeyy 📝 — Every line belongs to you</p>
+            </div>
+
+            <!-- Vintage Love-Letter / Old-Mail Parchment Card -->
+            <article class="vintage-poem-parchment" id="poem-parchment-card">
+              <!-- Floating Petals & Sparkle Decorations inside Parchment -->
+              <span class="parchment-petal pp-1" aria-hidden="true">🌸</span>
+              <span class="parchment-petal pp-2" aria-hidden="true">🌹</span>
+              <span class="parchment-petal pp-3" aria-hidden="true">✨</span>
+              <span class="parchment-petal pp-4" aria-hidden="true">💗</span>
+
+              <div class="parchment-top-meta">
+                <span class="parchment-date">Since 10/10/21 · Nineteen Years of Magic</span>
+                <span class="parchment-seal" aria-hidden="true">💌</span>
+              </div>
+
+              <h3 class="poem-handwritten-salutation">To My Dearest Wifeyy,</h3>
+
+              <!-- ===========================================================
+                   EDITABLE POEM TEXT:
+                   Replace the lines inside <p class="poem-line"> with your own poem!
+                   =========================================================== -->
+              <div class="poem-verses-wrapper" id="poem-lines-list">
+                <div class="poem-stanza">
+                  <p class="poem-line">In a universe of a billion quiet stars,</p>
+                  <p class="poem-line">My soul somehow found its way to yours,</p>
+                  <p class="poem-line">Every laugh you breathe turns the dark into gold,</p>
+                  <p class="poem-line">The sweetest love story that could ever be told.</p>
+                </div>
+
+                <div class="poem-stanza">
+                  <p class="poem-line">Nineteen years ago, the world grew bright,</p>
+                  <p class="poem-line">The moon found its glow and the stars found their light,</p>
+                  <p class="poem-line">Because you came into this world, my sweetest dream,</p>
+                  <p class="poem-line">More magical and tender than anything I've seen.</p>
+                </div>
+
+                <div class="poem-stanza">
+                  <p class="poem-line">From the tenth of October when our story began,</p>
+                  <p class="poem-line">Holding your heart and holding your hand,</p>
+                  <p class="poem-line">Through every silly smile and every quiet night,</p>
+                  <p class="poem-line">Loving you, my wifeyy, makes everything right.</p>
+                </div>
+
+                <div class="poem-stanza">
+                  <p class="poem-line">So here is my promise under this starry sky,</p>
+                  <p class="poem-line">As seasons and birthdays gently pass by,</p>
+                  <p class="poem-line">In every lifetime, in every little way,</p>
+                  <p class="poem-line">I will love you more tomorrow than I do today.</p>
+                </div>
+              </div>
+
+              <div class="poem-signature-block">
+                <p class="poem-sign-closing">Forever &amp; Always Yours,</p>
+                <p class="poem-sign-script">Happiest 19th Birthday, My Love ❤️</p>
+              </div>
+            </article>
+
+            <div class="section-bottom-nav">
+              <button type="button" class="romantic-btn ghost-nav-btn" onclick="showSection('album')">
+                ← Back to Our Album
+              </button>
+              <button type="button" class="romantic-btn" onclick="showSection('about')">
+                Next Chapter: About My Wifeyy 💗 →
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <!-- -----------------------------------------------------------------
+             SECTION 4: ABOUT MY WIFEYY (#section-about)
+             Cream paper aesthetic, Polaroid portrait, Poppins readable paragraphs
+             ----------------------------------------------------------------- -->
+        <section id="section-about" class="spa-section hidden-section" aria-label="About My Wifeyy">
+          <div class="section-container">
+            <div class="section-header">
+              <p class="section-eyebrow">CHAPTER III · THE GIRL WHO HOLDS MY HEART</p>
+              <h2 class="section-main-title">About My Wifeyy 💗</h2>
+              <p class="section-sub-desc">About My Wifeyy 🌷 — Every little detail that makes you irreplacable</p>
+            </div>
+
+            <!-- Featured Top Profile Row: Large Polaroid Portrait + Handwritten Note -->
+            <div class="about-hero-showcase">
+              <div class="about-featured-polaroid">
+                <div class="polaroid-tape" aria-hidden="true"></div>
+                <div class="about-portrait-box">
+                  <img
+                    src="assets/photos/photo8.jpg"
+                    data-fallback="images/photo8.jpg"
+                    alt="Portrait of My Wifeyy"
+                    referrerpolicy="no-referrer"
+                  />
+                </div>
+                <p class="polaroid-caption">The Birthday Queen · 19 Today 👑💗</p>
+              </div>
+
+              <!-- EDITABLE PERSONAL INTRO CARD -->
+              <div class="about-intro-letter cream-paper-card">
+                <span class="paper-flower-badge" aria-hidden="true">🌷 ✨</span>
+                <h3 class="cream-card-heading">Why You Are One in a Universe</h3>
+                <p class="cream-card-prose">
+                  <!-- EDITABLE TEXT: Intro about her -->
+                  Replace this placeholder with your own heartfelt words about her! Even on the busiest days, just hearing your voice or seeing your smile changes my entire world. You have the softest heart, the prettiest smile, and a warmth that makes everyone around you feel loved.
+                </p>
+                <p class="handwritten-margin-note">
+                  "My favorite place in the world will always be right next to you." 💕
+                </p>
+              </div>
+            </div>
+
+            <!-- 6 Editable Romantic Cream Paper Cards -->
+            <div class="about-cards-grid">
+              <!-- Card 1: Her Personality -->
+              <article class="cream-paper-card">
+                <div class="card-top-ornament">🌸 01 · HER PERSONALITY</div>
+                <h3 class="cream-card-heading">Her Beautiful Soul</h3>
+                <!-- EDITABLE TEXT: Her personality -->
+                <p class="cream-card-prose">
+                  Sweet, caring, effortlessly funny, and wonderfully genuine. Whether you are being my cutest babyy or the wisest person in the room, your kindness shines through everything you do.
+                </p>
+              </article>
+
+              <!-- Card 2: Things I Love About Her -->
+              <article class="cream-paper-card">
+                <div class="card-top-ornament">💗 02 · THINGS I LOVE ABOUT HER</div>
+                <h3 class="cream-card-heading">What Captures My Heart</h3>
+                <!-- EDITABLE TEXT: Things I love about her -->
+                <p class="cream-card-prose">
+                  The way your eyes light up when you talk about things you love, your contagious laugh, your gentle hugs, and how deeply you care for the people who matter to you.
+                </p>
+              </article>
+
+              <!-- Card 3: My Favorite Things About Her -->
+              <article class="cream-paper-card">
+                <div class="card-top-ornament">✨ 03 · MY FAVORITE DETAILS</div>
+                <h3 class="cream-card-heading">My Favorite Little Things</h3>
+                <!-- EDITABLE TEXT: My favorite things about her -->
+                <p class="cream-card-prose">
+                  Your sleepy voice, your cute expressions when you're teasing me, the way you hold my hand, and all the adorable nicknames that belong only to us.
+                </p>
+              </article>
+
+              <!-- Card 4: Our Memories -->
+              <article class="cream-paper-card">
+                <div class="card-top-ornament">📸 04 · OUR MEMORIES</div>
+                <h3 class="cream-card-heading">Moments I Treasure Forever</h3>
+                <!-- EDITABLE TEXT: Our memories -->
+                <p class="cream-card-prose">
+                  From 10/10/21 to every late-night conversation, inside joke, and spontaneous picture we've taken together—every single memory with you is my favorite chapter.
+                </p>
+              </article>
+
+              <!-- Card 5: What She Means To Me -->
+              <article class="cream-paper-card">
+                <div class="card-top-ornament">🌙 05 · WHAT SHE MEANS TO ME</div>
+                <h3 class="cream-card-heading">My Home &amp; My Peace</h3>
+                <!-- EDITABLE TEXT: What she means to me -->
+                <p class="cream-card-prose">
+                  You aren't just my girlfriend—you are my best friend, my safe place, my comfort, my bangaram, and my wifeyy. Life feels infinitely brighter with you in it.
+                </p>
+              </article>
+
+              <!-- Card 6: A Personal Message -->
+              <article class="cream-paper-card highlighted-cream-card">
+                <div class="card-top-ornament">💌 06 · PERSONAL BIRTHDAY WISH</div>
+                <h3 class="cream-card-heading">My Birthday Wish For You</h3>
+                <!-- EDITABLE TEXT: A personal message -->
+                <p class="cream-card-prose">
+                  As you turn 19 today, I pray that every dream in your heart comes true. May you always smile as brightly as the stars above, and know that I am cheering for you and loving you endlessly.
+                </p>
+              </article>
+            </div>
+
+            <div class="section-bottom-nav">
+              <button type="button" class="romantic-btn ghost-nav-btn" onclick="showSection('poem')">
+                ← Back to Poem
+              </button>
+              <button type="button" class="romantic-btn" onclick="showSection('surprise')">
+                Final Chapter: One Last Surprise 🎁 →
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <!-- -----------------------------------------------------------------
+             SECTION 5: FINAL SURPRISE (#section-surprise)
+             Interactive 3D Gift Box + Full-Length Cinema Video Player
+             ----------------------------------------------------------------- -->
+        <section id="section-surprise" class="spa-section hidden-section" aria-label="Final Birthday Surprise">
+          <div class="section-container surprise-section-container">
+            <div class="section-header">
+              <p class="section-eyebrow">CHAPTER IV · THE GRAND FINALE</p>
+              <h2 class="section-main-title">One Last Surprise... 🌙❤️</h2>
+              <p class="section-sub-desc" id="surprise-sub-prompt">
+                One Last Surprise For You... 🎁 — Click to watch our little movie 🎬
+              </p>
+            </div>
+
+            <!-- Interactive Glowing Gift Box Stage (Shown before unwrapping) -->
+            <div id="gift-box-stage" class="gift-box-stage">
+              <div class="gift-floating-hearts" aria-hidden="true">
+                <span>💗</span><span>✨</span><span>💖</span><span>🌟</span><span>💕</span>
+              </div>
+
+              <button
+                type="button"
+                id="unwrap-gift-btn"
+                class="gift-box-interactive"
+                aria-label="Click to open your birthday gift box and watch our movie"
+              >
+                <div class="gift-glow-aura" aria-hidden="true"></div>
+                <!-- Gift Lid -->
+                <div class="gift-lid" id="gift-lid">
+                  <div class="gift-bow">
+                    <span class="bow-loop bow-left"></span>
+                    <span class="bow-knot"></span>
+                    <span class="bow-loop bow-right"></span>
+                  </div>
+                  <div class="gift-lid-ribbon"></div>
+                </div>
+                <!-- Inner Light Burst -->
+                <div class="gift-inner-light" id="gift-inner-light"></div>
+                <!-- Gift Body -->
+                <div class="gift-body">
+                  <div class="gift-body-ribbon"></div>
+                  <span class="gift-heart-emblem">❤️</span>
+                </div>
+              </button>
+
+              <p class="gift-tap-instruction">
+                ✨ Tap the glowing gift box to unwrap your surprise ✨
+              </p>
+              <button
+                type="button"
+                class="romantic-btn"
+                onclick="triggerGiftBoxOpen()"
+              >
+                <span>Click to watch our little movie 🎬</span>
+              </button>
+            </div>
+
+            <!-- Cinema Video Reveal Stage (Revealed after Gift Box opens) -->
+            <div id="cinema-video-stage" class="cinema-video-stage hidden">
+              <div class="cinema-polaroid-frame glass-panel">
+                <div class="cinema-header-bar">
+                  <span class="cinema-badge">✨ PRIVATE SCREENING · FULL LENGTH</span>
+                  <h3 class="cinema-title">Our Little Movie 🎬❤️</h3>
+                  <p class="cinema-subtitle">A Little Piece Of Us 🎬</p>
+                </div>
+
+                <!-- EDITABLE VIDEO DESCRIPTION -->
+                <p class="cinema-description">
+                  I made this little video just for you. Every moment in it means something to me, and I hope it reminds you how special you are to me.
+                </p>
+
+                <!-- Responsive Video Container — Supports Full Length (5m, 10m, 15m, 20m+) -->
+                <div class="video-player-wrapper">
+                  <video
+                    id="surprise-video"
+                    class="surprise-video-element"
+                    controls
+                    playsinline
+                    preload="metadata"
+                  >
+                    <source src="assets/video/final-surprise.mp4" type="video/mp4" />
+                    <source src="video/surprise.mp4" type="video/mp4" />
+                    Your browser does not support HTML5 video.
+                  </video>
+                </div>
+
+                <!-- Music + Video Smart Sync Indicator + Local Video Preview Helper -->
+                <div class="cinema-footer-bar">
+                  <p class="music-sync-note" id="video-music-sync-status">
+                    🎵 Background music pauses automatically when you press Play, and resumes when our movie finishes.
+                  </p>
+                  <label class="local-video-preview-label" for="local-video-input" title="Test with any MP4 file from your device">
+                    <span>📂 Preview your own MP4 file here</span>
+                    <input
+                      type="file"
+                      id="local-video-input"
+                      accept="video/*"
+                      class="sr-only-input"
+                    />
+                  </label>
+                </div>
+              </div>
+
+              <!-- Final Romantic Message in Great Vibes -->
+              <div class="final-love-declaration">
+                <p class="great-vibes-forever">I Love You Forever, My Wifeyy ❤️</p>
+                <p class="final-sub-blessing">
+                  Happiest 19th Birthday · 10/10/21 to Infinity ♾️
+                </p>
+              </div>
+
+              <div class="section-bottom-nav">
+                <button type="button" class="romantic-btn ghost-nav-btn" onclick="showSection('home')">
+                  ← Back to Home
+                </button>
+                <button type="button" class="romantic-btn ghost-nav-btn" onclick="showSection('album')">
+                  View Our 12 Photos 📸
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <!-- =====================================================================
+         FULLSCREEN ALBUM LIGHTBOX MODAL (All 12 Photos)
+         Supports Photo 1 of 12 counter, Previous, Next, Close & Keyboard
+         ===================================================================== -->
+    <div
+      id="album-lightbox"
+      class="album-lightbox hidden"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Polaroid Photo Lightbox"
+    >
+      <div class="lightbox-backdrop" id="lightbox-backdrop"></div>
+
+      <div class="lightbox-content-wrap">
+        <div class="lightbox-top-bar">
+          <span class="lightbox-counter" id="lightbox-counter">Photo 1 of 12</span>
+          <button
+            type="button"
+            id="lightbox-close-btn"
+            class="lightbox-close-btn"
+            aria-label="Close photo viewer"
+          >
+            ✕
+          </button>
+        </div>
+
+        <div class="lightbox-stage">
+          <button
+            type="button"
+            id="lightbox-prev-btn"
+            class="lightbox-nav-btn prev-btn"
+            aria-label="Previous photo"
+          >
+            ‹
+          </button>
+
+          <figure class="lightbox-polaroid" id="lightbox-polaroid-frame">
+            <div class="polaroid-tape" aria-hidden="true"></div>
+            <div class="lightbox-img-container">
+              <img
+                id="lightbox-img"
+                src="assets/photos/photo1.jpg"
+                alt="Selected Memory"
+                referrerpolicy="no-referrer"
+              />
+            </div>
+            <figcaption class="lightbox-caption" id="lightbox-caption">
+              Our Beginning 💕
+            </figcaption>
+          </figure>
+
+          <button
+            type="button"
+            id="lightbox-next-btn"
+            class="lightbox-nav-btn next-btn"
+            aria-label="Next photo"
+          >
+            ›
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Interactive Script -->
+    <script src="./script.js" defer></script>
+  </body>
+</html>

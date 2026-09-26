@@ -1,0 +1,6 @@
+{
+  "name": "Happiest Birthday Wifeyy — Starry Polaroid Love Album",
+  "description": "A magical, interactive starry night & vintage Polaroid romantic birthday surprise website with secret locks, floating nicknames, 12-photo scrapbook album, love poem, and cinema surprise.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
