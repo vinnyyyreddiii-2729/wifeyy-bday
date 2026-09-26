@@ -2432,3 +2432,121 @@ input:focus-visible,
     transition-duration: 0.01ms !important;
   }
 }
+
+/* ==========================================================================
+   15. PERSONAL MEDIA UPLOADER STUDIO MODAL
+   ========================================================================== */
+.media-uploader-trigger-btn {
+  position: fixed;
+  bottom: 22px;
+  left: 22px;
+  z-index: 80;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 16px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 215, 106, 0.45);
+  background: rgba(24, 10, 42, 0.85);
+  backdrop-filter: blur(12px);
+  color: var(--ivory);
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+}
+
+.media-uploader-trigger-btn:hover {
+  transform: translateY(-2px);
+  border-color: var(--gold);
+  background: rgba(45, 18, 72, 0.92);
+}
+
+.media-uploader-card {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 600px;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 30px 28px;
+  color: var(--ivory);
+}
+
+.media-uploader-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.media-uploader-title {
+  font-family: var(--font-section-heading);
+  font-size: 1.45rem;
+  color: var(--ivory);
+}
+
+.media-uploader-sub {
+  font-size: 0.88rem;
+  color: rgba(255, 249, 245, 0.82);
+  margin-bottom: 20px;
+}
+
+.media-uploader-sub code,
+.media-box-info code {
+  color: var(--gold);
+  font-family: monospace;
+}
+
+.media-upload-sections {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 22px;
+}
+
+.media-upload-box {
+  padding: 16px 18px;
+  border-radius: 16px;
+  background: rgba(255, 249, 245, 0.06);
+  border: 1px solid rgba(255, 214, 231, 0.22);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.media-box-info h4 {
+  font-size: 0.98rem;
+  color: var(--blush);
+  margin-bottom: 4px;
+}
+
+.media-box-info p {
+  font-size: 0.82rem;
+  color: rgba(255, 249, 245, 0.75);
+}
+
+.upload-action-label {
+  align-self: flex-start;
+  padding: 10px 20px;
+  font-size: 0.86rem;
+}
+
+.upload-status-line {
+  font-size: 0.8rem;
+  color: var(--gold);
+}
+
+.media-uploader-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255, 214, 231, 0.18);
+}
+

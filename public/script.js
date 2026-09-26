@@ -1270,7 +1270,212 @@
   }
 
   /* ========================================================================
-     14. INITIALIZE EVERYTHING ON DOM READY
+     14. PERSONAL MEDIA UPLOADER STUDIO (Saves directly into project files)
+     ======================================================================== */
+  function initPersonalMediaUploader() {
+    const openBtn = document.getElementById("open-media-uploader-btn");
+    const modal = document.getElementById("media-uploader-modal");
+    const closeBtn = document.getElementById("close-media-uploader-btn");
+    const doneBtn = document.getElementById("done-media-uploader-btn");
+    const backdrop = document.getElementById("media-uploader-backdrop");
+    const hideTriggerBtn = document.getElementById("hide-uploader-trigger-btn");
+
+    const photosInput = document.getElementById("upload-photos-input");
+    const photosStatus = document.getElementById("upload-photos-status");
+    const musicInput = document.getElementById("upload-music-input");
+    const musicStatus = document.getElementById("upload-music-status");
+    const videoInput = document.getElementById("upload-video-input");
+    const videoStatus = document.getElementById("upload-video-status");
+
+    if (!openBtn || !modal) return;
+
+    function openModal() {
+      playSubtleClickSound();
+      modal.classList.remove("hidden");
+    }
+
+    function closeModal() {
+      playSubtleClickSound();
+      modal.classList.add("hidden");
+    }
+
+    openBtn.addEventListener("click", openModal);
+    if (closeBtn) closeBtn.addEventListener("click", closeModal);
+    if (doneBtn) doneBtn.addEventListener("click", closeModal);
+    if (backdrop) backdrop.addEventListener("click", closeModal);
+
+    if (hideTriggerBtn) {
+      hideTriggerBtn.addEventListener("click", function () {
+        openBtn.classList.add("hidden");
+        closeModal();
+      });
+    }
+
+    // 1. Upload 12 Photos (Automatically sorts 1.jpg..12.jpg or photo1.jpg..photo12.jpg numerically)
+    if (photosInput) {
+      photosInput.addEventListener("change", async function (e) {
+        const fileList = Array.from((e.target && e.target.files) || []);
+        if (fileList.length === 0) return;
+
+        // Sort numerically by any number in filename (so 1.jpg, 2.jpg ... 10.jpg, 11.jpg, 12.jpg order is preserved)
+        fileList.sort(function (a, b) {
+          const numA = parseInt((a.name.match(/\d+/) || ["999"])[0], 10);
+          const numB = parseInt((b.name.match(/\d+/) || ["999"])[0], 10);
+          if (numA !== numB) return numA - numB;
+          return a.name.localeCompare(b.name);
+        });
+
+        const toUpload = fileList.slice(0, 12);
+        if (photosStatus) {
+          photosStatus.textContent = "⏳ Uploading & saving " + toUpload.length + " photos into project...";
+        }
+
+        let savedCount = 0;
+        const domCards = document.querySelectorAll(".polaroid-card");
+        const aboutImg = document.querySelector(".about-portrait-box img");
+
+        for (let i = 0; i < toUpload.length; i++) {
+          const file = toUpload[i];
+          // Determine slot number: if filename has 1..12 and user uploaded fewer than 12, use that slot; else sequential 1..12
+          let slotNum = i + 1;
+          const matchNum = parseInt((file.name.match(/\d+/) || ["0"])[0], 10);
+          if (toUpload.length < 12 && matchNum >= 1 && matchNum <= 12) {
+            slotNum = matchNum;
+          }
+
+          try {
+            const resp = await fetch("/api/upload-media?slot=photo" + slotNum, {
+              method: "POST",
+              headers: { "Content-Type": file.type || "image/jpeg" },
+              body: file
+            });
+            const data = await resp.json();
+            const cacheBustedUrl = "assets/photos/photo" + slotNum + ".jpg?t=" + Date.now();
+            const localBlobUrl = URL.createObjectURL(file);
+            const finalUrl = (data && data.ok) ? cacheBustedUrl : localBlobUrl;
+
+            ALBUM_PHOTOS[slotNum - 1].src = finalUrl;
+            ALBUM_PHOTOS[slotNum - 1].resolvedSrc = finalUrl;
+
+            const card = domCards[slotNum - 1];
+            if (card) {
+              const img = card.querySelector("img");
+              if (img) img.src = finalUrl;
+            }
+            if (slotNum === 8 && aboutImg) {
+              aboutImg.src = finalUrl;
+            }
+            savedCount++;
+          } catch (_err) {
+            // Fallback to instant browser blob preview if offline
+            const localBlobUrl = URL.createObjectURL(file);
+            ALBUM_PHOTOS[slotNum - 1].resolvedSrc = localBlobUrl;
+            const card = domCards[slotNum - 1];
+            if (card) {
+              const img = card.querySelector("img");
+              if (img) img.src = localBlobUrl;
+            }
+            if (slotNum === 8 && aboutImg) {
+              aboutImg.src = localBlobUrl;
+            }
+            savedCount++;
+          }
+        }
+
+        if (photosStatus) {
+          photosStatus.textContent = "✅ Saved " + savedCount + " photo(s) to assets/photos/photo1.jpg–photo12.jpg!";
+        }
+      });
+    }
+
+    // 2. Upload Background Music (birthday-song.mp3)
+    if (musicInput) {
+      musicInput.addEventListener("change", async function (e) {
+        const file = e.target && e.target.files && e.target.files[0];
+        if (!file) return;
+
+        if (musicStatus) {
+          musicStatus.textContent = "⏳ Saving \"" + file.name + "\" as assets/music/birthday-song.mp3...";
+        }
+
+        const bgAudio = document.getElementById("bg-music");
+        try {
+          const resp = await fetch("/api/upload-media?slot=music", {
+            method: "POST",
+            headers: { "Content-Type": file.type || "audio/mpeg" },
+            body: file
+          });
+          const data = await resp.json();
+          const newAudioUrl = (data && data.ok)
+            ? "assets/music/birthday-song.mp3?t=" + Date.now()
+            : URL.createObjectURL(file);
+
+          if (bgAudio) {
+            bgAudio.src = newAudioUrl;
+            bgAudio.load();
+            if (isMusicPlaying) {
+              startBackgroundMusic();
+            }
+          }
+          if (musicStatus) {
+            musicStatus.textContent = "✅ Saved \"" + file.name + "\" to assets/music/birthday-song.mp3!";
+          }
+        } catch (_err) {
+          if (bgAudio) {
+            bgAudio.src = URL.createObjectURL(file);
+            bgAudio.load();
+          }
+          if (musicStatus) {
+            musicStatus.textContent = "✅ Loaded \"" + file.name + "\" as background birthday song!";
+          }
+        }
+      });
+    }
+
+    // 3. Upload Final Surprise Video (final-surprise.mp4)
+    if (videoInput) {
+      videoInput.addEventListener("change", async function (e) {
+        const file = e.target && e.target.files && e.target.files[0];
+        if (!file) return;
+
+        if (videoStatus) {
+          videoStatus.textContent = "⏳ Saving \"" + file.name + "\" as assets/video/final-surprise.mp4...";
+        }
+
+        const videoEl = document.getElementById("surprise-video");
+        try {
+          const resp = await fetch("/api/upload-media?slot=video", {
+            method: "POST",
+            headers: { "Content-Type": file.type || "video/mp4" },
+            body: file
+          });
+          const data = await resp.json();
+          const newVideoUrl = (data && data.ok)
+            ? "assets/video/final-surprise.mp4?t=" + Date.now()
+            : URL.createObjectURL(file);
+
+          if (videoEl) {
+            videoEl.src = newVideoUrl;
+            videoEl.load();
+          }
+          if (videoStatus) {
+            videoStatus.textContent = "✅ Saved \"" + file.name + "\" to assets/video/final-surprise.mp4!";
+          }
+        } catch (_err) {
+          if (videoEl) {
+            videoEl.src = URL.createObjectURL(file);
+            videoEl.load();
+          }
+          if (videoStatus) {
+            videoStatus.textContent = "✅ Loaded \"" + file.name + "\" into Final Surprise video player!";
+          }
+        }
+      });
+    }
+  }
+
+  /* ========================================================================
+     15. INITIALIZE EVERYTHING ON DOM READY
      ======================================================================== */
   document.addEventListener("DOMContentLoaded", function () {
     initStarrySkyCanvas();
@@ -1281,5 +1486,6 @@
     initAlbumAndLightbox();
     initSurpriseVideoAndMusicSync();
     initNavigationAndButtons();
+    initPersonalMediaUploader();
   });
 })();
